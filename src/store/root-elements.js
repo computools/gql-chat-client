@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { all } from '@redux-saga/core/effects';
 
 export const rootReducer = combineReducers({
-  authReducer,
+  auth: authReducer,
 });
 
 export function* rootSaga() {
