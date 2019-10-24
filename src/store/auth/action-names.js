@@ -1,6 +1,4 @@
-import { withActionPath } from '../../utils';
-
-export const authActionNames = withActionPath('auth', {
+export const authActionNames = {
   LOG_IN_USER: 'LOG_IN_USER',
   LOG_IN_USER_SUCCESS: 'LOG_IN_USER_SUCCESS',
-});
+};
