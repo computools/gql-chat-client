@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { authActions } from '../../store/auth';
+import { useForm, useField } from 'react-final-form-hooks';
+import { Field, Form } from 'react-final-form';
+import { Input } from '@material-ui/core';
 
-const SignUp = (props) => {
-  const { logInUser, state } = props;
+const initialValues = {
+  email: '',
+};
+
+const validate = (...args) => {
+  console.log('TCL: validate -> args', args);
+  return {};
+};
+
+const SignUp = props => {
+  const onSubmit = useCallback((...args) => {
+    console.log('TCL: onSubmit -> args', args);
+  }, []);
+  const { form, handleSubmit, pristine, submitting } = useForm({
+    onSubmit,
+    validate,
+  });
+  const email = useField('email', form);
+  console.log('TCL: email', email);
+
   return (
-    <div>
-      <button onClick={logInUser}>click</button>
-      <div>{JSON.stringify(state)}</div>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <Input {...email.input} />
+      <button 
+        type="submit"
+        disabled={submitting || pristine}
+      >sub</button>
+    </form>
   );
 };
 
