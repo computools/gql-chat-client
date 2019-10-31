@@ -1,15 +1,17 @@
 import { authActionNames } from '.';
 
 const init = {
-  message: 'nope',
+  user: null,
+  token: null,
 };
 
 export function authReducer(state = init, action) {
   switch (action.type) {
-    case authActionNames.LOG_IN_USER_SUCCESS:
+    case authActionNames.USER_LOGGED_IN:
       return {
         ...state,
-        message: action.payload.message,
+        user: action.payload.user,
+        token: action.payload.token,
       };
     default: return state;
   }

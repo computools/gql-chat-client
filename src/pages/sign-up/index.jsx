@@ -1,59 +1,92 @@
-import React, { useCallback, useRef, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { authActions } from '../../store/auth';
+import React from 'react';
+import { authActionNames } from '../../store/auth';
 import { Field, Form } from 'react-final-form';
-import { Input } from '@material-ui/core';
-import { FORM_ERROR } from 'final-form';
 import { FormLine, FormField } from '../../components/form';
+import MakeAsync from '../../components/make-async';
+import { isRequired } from '../../utils';
 
 const initialValues = {
+  name: '',
   email: '',
   password: '',
   passwordConfim: '',
 };
-const delay = t => new Promise(r => setTimeout(r, t));
-
-const validate = ({ email }) => {
-  console.log('TCL: validate -> email', email);
-  if (email === '123') return { email: 'nope', };
+const validate = ({ password, passwordConfim }) => {
+  const errors = {};
+  if (password !== passwordConfim) {
+    errors.passwordConfim = 'Passwords do not match';
+  }
+  return errors;
 };
 
-const SignUp = props => {
-  const onSubmit = useCallback(async ({ email, password, passwordConfim }) => {
-    await delay(300);
-    console.log('TCL: onSubmit -> args', email, password, passwordConfim);
-    // if (true) {
-    return { [FORM_ERROR]: 'from erorroror   incorrect...' };
-    // }
-  }, []);
-
+const SignUp = () => {
   return (
-    <>
-      <Form
-        {...{
-          onSubmit,
-          validate,
-          initialValues,
-        }}
-        render={({ handleSubmit, submitting, pristine, submitError, errors }) => {
-          return (
-            <form onSubmit={handleSubmit} noValidate>
-              <FormLine>
-                <Field name="email" render={p => <FormField {...p} errors={errors} />} />
-              </FormLine>
-              <button type="submit" disabled={submitting || pristine}>
-                sub
-              </button>
-              <span>{submitError}</span>
-            </form>
-          );
-        }}
-      />
-    </>
+    <MakeAsync
+      start={authActionNames.REGISTER_USER}
+      resolve={authActionNames.REGISTER_USER_SUCCESS}
+      reject={authActionNames.REGISTER_USER_ERROR}
+    >
+      {onSubmit => (
+        <Form
+          {...{
+            onSubmit,
+            initialValues,
+            validate,
+          }}
+          render={({ handleSubmit, submitting, pristine, submitError }) => {
+            return (
+              <form onSubmit={handleSubmit} noValidate>
+                <FormLine>
+                  <Field
+                    name="name"
+                    type="text"
+                    validate={isRequired}
+                    label="Name"
+                    render={FormField}
+                    disabled={submitting}
+                  />
+                </FormLine>
+                <FormLine>
+                  <Field
+                    name="email"
+                    type="text"
+                    validate={isRequired}
+                    label="Email"
+                    render={FormField}
+                    disabled={submitting}
+                  />
+                </FormLine>
+                <FormLine>
+                  <Field
+                    name="password"
+                    type="password"
+                    validate={isRequired}
+                    label="Password"
+                    render={FormField}
+                    disabled={submitting}
+                  />
+                </FormLine>
+                <FormLine>
+                  <Field
+                    name="passwordConfim"
+                    type="password"
+                    validate={isRequired}
+                    label="Confirm password"
+                    render={FormField}
+                    disabled={submitting}
+                  />
+                </FormLine>
+                <button type="submit" disabled={submitting || pristine}>
+                  Sign up
+                </button>
+                <span>{submitError}</span>
+              </form>
+            );
+          }}
+        />
+      )}
+    </MakeAsync>
   );
 };
 
-export default connect(
-  state => ({ state }),
-  { ...authActions }
-)(SignUp);
+export default SignUp;

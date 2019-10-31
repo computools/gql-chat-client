@@ -1,13 +1,32 @@
-import { takeLatest, put } from '@redux-saga/core/effects';
+import { call, takeLatest, put } from '@redux-saga/core/effects';
 import { authActionNames } from '.';
+import { FORM_ERROR } from 'final-form';
+import api from '../../api';
+import { authActions } from './actions';
 
-function* loginUser() {
-  yield put({
-    type: authActionNames.LOG_IN_USER_SUCCESS,
-    payload: { message: 'LOGGED IN! ' + Math.random() },
-  });
+function* registerUser({ payload: { email, password, name } }) {
+  try {
+    const {
+      data: {
+        registerUser: { user, token },
+      },
+    } = yield call(api.registerUser, {
+      variables: {
+        user: {
+          email,
+          password,
+          name,
+        },
+      },
+    });
+
+    yield put(authActions.userLoggedIn({ user, token }));
+    yield put(authActions.registerUserSuccess());
+  } catch (error) {
+    yield put(authActions.registerUserError({ [FORM_ERROR]: 'Got an error :/' }));
+  }
 }
 
 export function* authWatcher() {
-  yield takeLatest(authActionNames.LOG_IN_USER, loginUser);
+  yield takeLatest(authActionNames.REGISTER_USER, registerUser);
 }
