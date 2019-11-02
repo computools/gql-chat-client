@@ -2,7 +2,7 @@ import React from 'react';
 import { authActionNames } from '../../store/auth';
 import { Field, Form } from 'react-final-form';
 import { FormLine, FormField } from '../../components/form';
-import MakeAsync from '../../components/make-async';
+import MakeAsync from '../../components/common/make-async';
 import { isRequired } from '../../utils';
 
 const initialValues = {

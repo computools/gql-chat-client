@@ -1,5 +1,5 @@
 import MakeAsyncFunction from 'react-redux-promise-listener';
-import { promiseListener } from '../store';
+import { promiseListener } from '../../store';
 
 class MakeAsync extends MakeAsyncFunction {
   static defaultProps = {

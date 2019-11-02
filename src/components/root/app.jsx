@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Switch } from 'react-router-dom';
-import { routes } from '../constants/routes';
-import SignUp from '../pages/sign-up';
-import Page404 from '../pages/page-404';
-import PrivateRoute from './private-route';
+import { routes } from '../../constants/routes';
+import SignUp from '../../pages/sign-up';
+import Page404 from '../../pages/page-404';
+import PrivateRoute from '../common/private-route';
 
 class Router extends Component {
   render() {
