@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
-import { Switch } from 'react-router-dom';
-import { routes } from '../../constants/routes';
-import SignUp from '../../pages/sign-up';
-import Page404 from '../../pages/page-404';
-import PrivateRoute from '../common/private-route';
+import React from 'react';
+import { CssBaseline } from '@material-ui/core';
+import Router from './router';
+import GlobalCss from '../common/GlobalCss';
 
-class Router extends Component {
-  render() {
-    return (
-      <Switch>
-        <PrivateRoute path={routes.signup} component={SignUp} isAllowed={true} />
-        <PrivateRoute path="*" component={Page404} />
-      </Switch>
-    );
-  }
-}
+const App = () => {
+  return (
+    <>
+      <CssBaseline />
+      <GlobalCss />
+      <Router />
+    </>
+  );
+};
 
-export default Router;
+export default App;
