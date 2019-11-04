@@ -15,6 +15,6 @@ export const rootReducer = combineReducers({
 
 export function* rootSaga() {
   yield all([
-    authWatcher(),
-  ])
+    authWatcher()
+  ]);
 }

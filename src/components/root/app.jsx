@@ -8,7 +8,9 @@ import { Loader } from '../common';
 
 const App = () => {
   const dispatch = useDispatch();
-  const checkUserToken = useCallback(() => dispatch(authActions.verifyUserToken()), [dispatch]);
+  const checkUserToken = useCallback(() => dispatch(authActions.verifyUserToken()), [
+    dispatch,
+  ]);
   const isUserLoaded = useSelector(state => state.auth.isUserLoaded);
 
   useEffect(() => {

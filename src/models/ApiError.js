@@ -1,11 +1,7 @@
 import { get } from 'lodash';
 
 export class ApiError {
-  constructor({
-    message,
-    status,
-    originalError
-  }) {
+  constructor({ message, status, originalError }) {
     this.message = message;
     this.status = status;
     this.originalError = originalError;
@@ -18,5 +14,5 @@ export class ApiError {
       status: get(parsedErr, 'status', 500),
       originalError,
     });
-  };
+  }
 }

@@ -27,7 +27,7 @@ export function authReducer(state = init, action) {
         isUserLoaded: true,
         token: null,
         user: null,
-      }
+      };
     default:
       return state;
   }
