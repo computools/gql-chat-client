@@ -5,7 +5,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { apiClient } from '../../api';
 import App from './app';
 import HelmetWrapper from './helmet';
-import store from '../../store';
+import { store, persistor } from '../../store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@material-ui/styles';
 import { theme } from '../../constants';
@@ -15,7 +15,7 @@ const Root = () => {
     <ThemeProvider theme={theme}>
       <ApolloProvider client={apiClient}>
         <StoreProvider store={store}>
-          <PersistGate persistor={store}>
+          <PersistGate persistor={persistor}>
             <BrowserRouter>
               <HelmetWrapper />
               <App />

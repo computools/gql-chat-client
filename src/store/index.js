@@ -12,8 +12,9 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [logger, reduxPromiseListener.middleware, sagaMiddleware];
 
 const enhancer = composeWithDevTools(applyMiddleware(...middlewares));
-const store = persistStore(createStore(rootReducer, enhancer));
+const store = createStore(rootReducer, enhancer);
+const persistor = persistStore(store);
 sagaMiddleware.run(rootSaga);
 
 export const promiseListener = reduxPromiseListener;
-export default store;
+export { store, persistor };
