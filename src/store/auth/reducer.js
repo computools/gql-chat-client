@@ -21,6 +21,7 @@ export function authReducer(state = init, action) {
         isUserLoaded: true,
         user: action.payload.user || null,
       };
+    // todo: show error if it's not related to the user token
     case authActionNames.VERIFY_USER_TOKEN_ERROR:
       return {
         ...state,
