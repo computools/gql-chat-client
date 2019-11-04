@@ -2,6 +2,7 @@ import { authActionNames } from '.';
 
 const init = {
   user: null,
+  isUserLoaded: false,
   token: null,
 };
 
@@ -13,6 +14,21 @@ export function authReducer(state = init, action) {
         user: action.payload.user,
         token: action.payload.token,
       };
-    default: return state;
+
+    case authActionNames.VERIFY_USER_TOKEN_SUCCESS:
+      return {
+        ...state,
+        isUserLoaded: true,
+        user: action.payload.user || null,
+      };
+    case authActionNames.VERIFY_USER_TOKEN_ERROR:
+      return {
+        ...state,
+        isUserLoaded: true,
+        token: null,
+        user: null,
+      }
+    default:
+      return state;
   }
-};
+}

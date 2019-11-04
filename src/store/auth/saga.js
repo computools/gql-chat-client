@@ -1,4 +1,4 @@
-import { call, takeLatest, put } from '@redux-saga/core/effects';
+import { call, takeLatest, put, select } from '@redux-saga/core/effects';
 import { authActionNames } from '.';
 import { FORM_ERROR } from 'final-form';
 import api from '../../api';
@@ -58,7 +58,31 @@ function* loginUser({ payload: { email, password } }) {
   }
 }
 
+function* checkUserToken() {
+  const token = yield select(state => state.auth.token);
+
+  if (!token) {
+    return yield put(authActions.verifyUserTokenSuccess());
+  }
+
+  try {
+    const {
+      data: {
+        verifyUser: { user },
+      },
+    } = yield call(api.verifyUser, {
+      variables: {
+        token,
+      },
+    });
+    yield put(authActions.verifyUserTokenSuccess({ user }));
+  } catch (err) {
+    yield put(authActions.verifyUserTokenError());
+  }
+}
+
 export function* authWatcher() {
   yield takeLatest(authActionNames.REGISTER_USER, registerUser);
   yield takeLatest(authActionNames.LOG_IN_USER, loginUser);
+  yield takeLatest(authActionNames.VERIFY_USER_TOKEN, checkUserToken);
 }

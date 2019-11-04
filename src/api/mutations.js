@@ -1,17 +1,15 @@
 import gql from 'graphql-tag';
 import { baseMutation } from './utils';
+import { fragments } from './fragments';
 
 const REGISTER_USER = gql`
   mutation registerUser($user: RegisterUserInput!) {
     registerUser(user: $user) {
-      user {
-        id
-        name
-        email
-      }
-      token
+      ...userWithToken
     }
   }
+
+  ${fragments.userWithToken}
 `;
 
 export const mutations = {
