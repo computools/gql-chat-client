@@ -7,46 +7,26 @@ import MakeAsync from '../../components/common/make-async';
 import { isRequired } from '../../utils';
 
 const initialValues = {
-  name: '',
   email: '',
   password: '',
-  passwordConfim: '',
-};
-const validate = ({ password, passwordConfim }) => {
-  const errors = {};
-  if (password !== passwordConfim) {
-    errors.passwordConfim = 'Passwords do not match';
-  }
-  return errors;
 };
 
-const SignUpForm = () => {
+const LoginForm = () => {
   return (
     <MakeAsync
-      start={authActionNames.REGISTER_USER}
-      resolve={authActionNames.REGISTER_USER_SUCCESS}
-      reject={authActionNames.REGISTER_USER_ERROR}
+      start={authActionNames.LOG_IN_USER}
+      resolve={authActionNames.LOG_IN_USER_SUCCESS}
+      reject={authActionNames.LOG_IN_USER_ERROR}
     >
       {onSubmit => (
         <Form
           {...{
             onSubmit,
             initialValues,
-            validate,
           }}
           render={({ handleSubmit, submitting, submitError }) => {
             return (
               <form onSubmit={handleSubmit} noValidate>
-                <FormLine>
-                  <Field
-                    name="name"
-                    type="text"
-                    validate={isRequired}
-                    label="Name"
-                    render={FormField}
-                    disabled={submitting}
-                  />
-                </FormLine>
                 <FormLine>
                   <Field
                     name="email"
@@ -67,23 +47,13 @@ const SignUpForm = () => {
                     disabled={submitting}
                   />
                 </FormLine>
-                <FormLine>
-                  <Field
-                    name="passwordConfim"
-                    type="password"
-                    validate={isRequired}
-                    label="Confirm password"
-                    render={FormField}
-                    disabled={submitting}
-                  />
-                </FormLine>
                 <Button
                   color="primary"
                   variant="contained"
                   type="submit"
                   disabled={submitting}
                 >
-                  Sign up
+                  Login
                 </Button>
                 <span>{submitError}</span>
               </form>
@@ -95,4 +65,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default LoginForm;

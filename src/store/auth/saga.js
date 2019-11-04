@@ -32,6 +32,33 @@ function* registerUser({ payload: { email, password, name } }) {
   }
 }
 
+function* loginUser({ payload: { email, password } }) {
+  try {
+    const {
+      data: {
+        loginUser: { user, token },
+      },
+    } = yield call(api.loginUser, {
+      variables: {
+        credentials: {
+          email,
+          password,
+        },
+      },
+    });
+
+    yield put(authActions.userLoggedIn({ user, token }));
+    yield put(authActions.logInUserSuccess());
+  } catch (err) {
+    yield put(
+      authActions.logInUserError({
+        [FORM_ERROR]: ApiError.from(err).message,
+      })
+    );
+  }
+}
+
 export function* authWatcher() {
   yield takeLatest(authActionNames.REGISTER_USER, registerUser);
+  yield takeLatest(authActionNames.LOG_IN_USER, loginUser);
 }

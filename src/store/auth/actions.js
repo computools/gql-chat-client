@@ -1,7 +1,11 @@
 import { authActionNames } from '.';
 
 export const authActions = {
-  logInUser: () => ({ type: authActionNames.LOG_IN_USER }),
+  userLoggedIn: ({ user, token }) => ({
+    type: authActionNames.USER_LOGGED_IN,
+    payload: { user, token },
+  }),
+
   registerUser: ({ email, password, name }) => ({
     type: authActionNames.REGISTER_USER,
     payload: { email, password, name },
@@ -11,8 +15,14 @@ export const authActions = {
     type: authActionNames.REGISTER_USER_ERROR,
     payload: errors,
   }),
-  userLoggedIn: ({ user, token }) => ({
-    type: authActionNames.USER_LOGGED_IN,
-    payload: { user, token },
+
+  logInUser: ({ email, password }) => ({
+    type: authActionNames.LOG_IN_USER,
+    payload: { email, password },
+  }),
+  logInUserSuccess: () => ({ type: authActionNames.LOG_IN_USER_SUCCESS }),
+  logInUserError: errors => ({
+    type: authActionNames.LOG_IN_USER_ERROR,
+    payload: errors,
   }),
 };

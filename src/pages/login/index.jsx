@@ -1,13 +1,13 @@
 import React from 'react';
-import SignUpForm from './sign-up-form';
 import { PageDefault } from '../../components/common';
+import LoginForm from './login-form';
 
-const SignUpPage = () => {
+const LoginPage = () => {
   return (
     <PageDefault>
-      <SignUpForm />
+      <LoginForm />
     </PageDefault>
   );
 };
 
-export default SignUpPage;
+export default LoginPage;
