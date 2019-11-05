@@ -1,23 +1,12 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import Centered from './centered';
 
-const useStyles = makeStyles({
-  root: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
-
-const Loader = ({ ...rest }) => {
-  const classes = useStyles();
+const Loader = props => {
   return (
-    <div className={classes.root}>
-      <CircularProgress color="primary" {...rest} />
-    </div>
+    <Centered>
+      <CircularProgress color="primary" {...props} />
+    </Centered>
   );
 };
 

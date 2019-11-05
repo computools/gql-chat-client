@@ -2,8 +2,9 @@ import { authActionNames } from '.';
 
 const init = {
   user: null,
-  isUserLoaded: false,
+  isUserLoading: true,
   token: null,
+  tokenVerificationError: null,
 };
 
 export function authReducer(state = init, action) {
@@ -15,19 +16,24 @@ export function authReducer(state = init, action) {
         token: action.payload.token,
       };
 
+    case authActionNames.VERIFY_USER_TOKEN:
+      return {
+        ...state,
+        isUserLoading: true,
+        tokenVerificationError: null,
+      };
     case authActionNames.VERIFY_USER_TOKEN_SUCCESS:
       return {
         ...state,
-        isUserLoaded: true,
+        tokenVerificationError: null,
+        isUserLoading: false,
         user: action.payload.user || null,
       };
-    // todo: show error if it's not related to the user token
     case authActionNames.VERIFY_USER_TOKEN_ERROR:
       return {
         ...state,
-        isUserLoaded: true,
-        token: null,
-        user: null,
+        tokenVerificationError: action.payload.tokenVerificationError,
+        isUserLoading: false,
       };
 
     case authActionNames.UPDATE_USER_TOKEN_SUCCESS:
@@ -35,6 +41,7 @@ export function authReducer(state = init, action) {
         ...state,
         token: action.payload.token,
       };
+
     default:
       return state;
   }

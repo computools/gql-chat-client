@@ -4,7 +4,7 @@ import Router from './router';
 import GlobalCss from '../common/global-css';
 import { useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
-import { Loader } from '../common';
+import { Loader, VerificationFailed } from '../common';
 import { useActions } from '../hooks';
 
 const actions = {
@@ -14,18 +14,26 @@ const actions = {
 
 const App = () => {
   const { verifyUserToken, updateUserToken } = useActions(actions);
-  const isUserLoaded = useSelector(state => state.auth.isUserLoaded);
+  const isUserLoading = useSelector(state => state.auth.isUserLoading);
+  const tokenVerificationError = useSelector(state => state.auth.tokenVerificationError);
 
   useEffect(() => {
     verifyUserToken();
     updateUserToken();
   }, [verifyUserToken, updateUserToken]);
 
+  const renderAppContent = () => {
+    if (!isUserLoading && tokenVerificationError) {
+      return <VerificationFailed {...{ tokenVerificationError, verifyUserToken }} />;
+    }
+    return isUserLoading ? <Loader /> : <Router />;
+  };
+
   return (
     <>
       <CssBaseline />
       <GlobalCss />
-      {isUserLoaded ? <Router /> : <Loader />}
+      {renderAppContent()}
     </>
   );
 };

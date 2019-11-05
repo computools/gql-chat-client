@@ -31,7 +31,10 @@ export const authActions = {
     type: authActionNames.VERIFY_USER_TOKEN_SUCCESS,
     payload: { user },
   }),
-  verifyUserTokenError: () => ({ type: authActionNames.VERIFY_USER_TOKEN_ERROR }),
+  verifyUserTokenError: ({ tokenVerificationError }) => ({
+    type: authActionNames.VERIFY_USER_TOKEN_ERROR,
+    payload: { tokenVerificationError },
+  }),
 
   updateUserToken: () => ({ type: authActionNames.UPDATE_USER_TOKEN }),
   updateUserTokenSuccess: ({ token }) => ({

@@ -7,6 +7,7 @@
     "@material-ui/core": "^4.5.2",
     "@material-ui/icons": "^4.5.1",
     "apollo-boost": "^0.4.4",
+    "classnames": "^2.2.6",
     "final-form": "^4.18.5",
     "graphql": "^14.5.8",
     "invariant": "^2.2.4",
