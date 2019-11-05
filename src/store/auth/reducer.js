@@ -42,6 +42,13 @@ export function authReducer(state = init, action) {
         token: action.payload.token,
       };
 
+    case authActionNames.LOG_OUT_USER:
+      return {
+        ...state,
+        token: null,
+        user: null,
+      };
+
     default:
       return state;
   }

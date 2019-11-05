@@ -41,4 +41,6 @@ export const authActions = {
     type: authActionNames.UPDATE_USER_TOKEN_SUCCESS,
     payload: { token },
   }),
+
+  logOutUser: () => ({ type: authActionNames.LOG_OUT_USER }),
 };

@@ -4,7 +4,7 @@ export const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
       root: {
-        height: '48px',
+        height: '58px',
       },
     },
   },

@@ -19,4 +19,6 @@ export const authActionNames = {
 
   UPDATE_USER_TOKEN: get('UPDATE_USER_TOKEN'),
   UPDATE_USER_TOKEN_SUCCESS: get('UPDATE_USER_TOKEN_SUCCESS'),
+
+  LOG_OUT_USER: get('LOG_OUT_USER'),
 };
