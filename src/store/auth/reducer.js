@@ -29,6 +29,12 @@ export function authReducer(state = init, action) {
         token: null,
         user: null,
       };
+
+    case authActionNames.UPDATE_USER_TOKEN_SUCCESS:
+      return {
+        ...state,
+        token: action.payload.token,
+      };
     default:
       return state;
   }

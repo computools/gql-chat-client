@@ -1,21 +1,25 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { CssBaseline } from '@material-ui/core';
 import Router from './router';
 import GlobalCss from '../common/global-css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
 import { Loader } from '../common';
+import { useActions } from '../hooks';
+
+const actions = {
+  verifyUserToken: authActions.verifyUserToken,
+  updateUserToken: authActions.updateUserToken,
+};
 
 const App = () => {
-  const dispatch = useDispatch();
-  const checkUserToken = useCallback(() => dispatch(authActions.verifyUserToken()), [
-    dispatch,
-  ]);
+  const { verifyUserToken, updateUserToken } = useActions(actions);
   const isUserLoaded = useSelector(state => state.auth.isUserLoaded);
 
   useEffect(() => {
-    checkUserToken();
-  }, [checkUserToken]);
+    verifyUserToken();
+    updateUserToken();
+  }, [verifyUserToken, updateUserToken]);
 
   return (
     <>

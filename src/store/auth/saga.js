@@ -1,9 +1,11 @@
-import { call, takeLatest, put, select } from '@redux-saga/core/effects';
+import { delay, call, takeLatest, put, select } from '@redux-saga/core/effects';
 import { authActionNames } from '.';
 import { FORM_ERROR } from 'final-form';
 import api from '../../api';
 import { authActions } from './actions';
-import { ApiError } from '../../models/ApiError';
+import { ApiError } from '../../models';
+import { TOKEN_UPDATE_DELAY } from '../../constants';
+import { shouldUpdateToken } from '../../utils';
 
 function* registerUser({ payload: { email, password, name } }) {
   try {
@@ -58,7 +60,7 @@ function* loginUser({ payload: { email, password } }) {
   }
 }
 
-function* checkUserToken() {
+function* verifyUserToken() {
   const token = yield select(state => state.auth.token);
 
   if (!token) {
@@ -70,19 +72,34 @@ function* checkUserToken() {
       data: {
         verifyUser: { user },
       },
-    } = yield call(api.verifyUser, {
-      variables: {
-        token,
-      },
-    });
+    } = yield call(api.verifyUser, { variables: { token } });
     yield put(authActions.verifyUserTokenSuccess({ user }));
   } catch (err) {
     yield put(authActions.verifyUserTokenError());
   }
 }
 
+function* updateUserToken() {
+  const token = yield select(state => state.auth.token);
+
+  if (token && shouldUpdateToken(token)) {
+    try {
+      const {
+        data: {
+          updateUserToken: { token: newToken },
+        },
+      } = yield call(api.updateUserToken, { variables: { token } });
+      yield put(authActions.updateUserTokenSuccess({ token: newToken }));
+    } catch {}
+  }
+
+  yield delay(TOKEN_UPDATE_DELAY);
+  yield put(authActions.updateUserToken());
+}
+
 export function* authWatcher() {
   yield takeLatest(authActionNames.REGISTER_USER, registerUser);
   yield takeLatest(authActionNames.LOG_IN_USER, loginUser);
-  yield takeLatest(authActionNames.VERIFY_USER_TOKEN, checkUserToken);
+  yield takeLatest(authActionNames.VERIFY_USER_TOKEN, verifyUserToken);
+  yield takeLatest(authActionNames.UPDATE_USER_TOKEN, updateUserToken);
 }
