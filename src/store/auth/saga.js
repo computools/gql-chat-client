@@ -1,7 +1,7 @@
 import { delay, call, takeLatest, put, select } from '@redux-saga/core/effects';
 import { authActionNames } from '.';
 import { FORM_ERROR } from 'final-form';
-import api from '../../api';
+import api, { wsLink } from '../../api';
 import { authActions } from './actions';
 import { ApiError } from '../../models';
 import { TOKEN_UPDATE_DELAY } from '../../constants';
@@ -101,9 +101,14 @@ function* updateUserToken() {
   yield put(authActions.updateUserToken());
 }
 
+function userLogOut() {
+  wsLink.subscriptionClient.close();
+}
+
 export function* authWatcher() {
   yield takeLatest(authActionNames.REGISTER_USER, registerUser);
   yield takeLatest(authActionNames.LOG_IN_USER, loginUser);
   yield takeLatest(authActionNames.VERIFY_USER_TOKEN, verifyUserToken);
   yield takeLatest(authActionNames.UPDATE_USER_TOKEN, updateUserToken);
+  yield takeLatest(authActionNames.LOG_OUT_USER, userLogOut);
 }
