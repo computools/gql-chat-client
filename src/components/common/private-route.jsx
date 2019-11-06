@@ -5,13 +5,18 @@ const PrivateRoute = ({
   component: Component,
   isAllowed = true,
   props = {},
+  redirectTo = '/',
   ...rest
 }) => {
   return (
     <Route
       {...rest}
       render={routeProps =>
-        isAllowed ? <Component {...routeProps} {...props} /> : <Redirect to={'/'} />
+        isAllowed ? (
+          <Component {...routeProps} {...props} />
+        ) : (
+          <Redirect to={redirectTo} />
+        )
       }
     />
   );
