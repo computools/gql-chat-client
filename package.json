@@ -28,7 +28,8 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "redux-promise-listener": "^1.1.1",
-    "redux-saga": "^1.1.1"
+    "redux-saga": "^1.1.1",
+    "subscriptions-transport-ws": "^0.9.16"
   },
   "scripts": {
     "start": "react-scripts start",
