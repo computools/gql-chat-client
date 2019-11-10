@@ -27,9 +27,9 @@ export const authActions = {
   }),
 
   verifyUserToken: () => ({ type: authActionNames.VERIFY_USER_TOKEN }),
-  verifyUserTokenSuccess: ({ user } = {}) => ({
+  verifyUserTokenSuccess: ({ user, shouldResetToken = false } = {}) => ({
     type: authActionNames.VERIFY_USER_TOKEN_SUCCESS,
-    payload: { user },
+    payload: { user, shouldResetToken },
   }),
   verifyUserTokenError: ({ tokenVerificationError }) => ({
     type: authActionNames.VERIFY_USER_TOKEN_ERROR,

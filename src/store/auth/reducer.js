@@ -28,6 +28,7 @@ export function authReducer(state = init, action) {
         tokenVerificationError: null,
         isUserLoading: false,
         user: action.payload.user || null,
+        token: action.payload.shouldResetToken ? null : state.token,
       };
     case authActionNames.VERIFY_USER_TOKEN_ERROR:
       return {

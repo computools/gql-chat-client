@@ -75,11 +75,15 @@ function* verifyUserToken() {
     } = yield call(api.verifyUser, { variables: { token } });
     yield put(authActions.verifyUserTokenSuccess({ user }));
   } catch (err) {
-    yield put(
-      authActions.verifyUserTokenError({
-        tokenVerificationError: ApiError.from(err),
-      })
-    );
+    const parsedErr = ApiError.from(err);
+    if (parsedErr.isServerError) {
+      return yield put(
+        authActions.verifyUserTokenError({
+          tokenVerificationError: parsedErr,
+        })
+      );
+    }
+    yield put(authActions.verifyUserTokenSuccess({ shouldResetToken: true }));
   }
 }
 

@@ -14,13 +14,9 @@ const useStyles = makeStyles({
 
 const VerificationFailed = ({ tokenVerificationError, verifyUserToken }) => {
   const classes = useStyles();
-  const errorTitle = tokenVerificationError.isServerError
-    ? 'Unable to connect to the remote server'
-    : 'Client error occurred';
-
   return (
     <Centered className={classes.root}>
-      <Typography variant="h6">{errorTitle}</Typography>
+      <Typography variant="h6">Unable to connect to the remote server</Typography>
       <Typography>{tokenVerificationError.message}</Typography>
       <Button variant="contained" onClick={verifyUserToken} className={classes.button}>
         Try again
