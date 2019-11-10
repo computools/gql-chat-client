@@ -6,3 +6,4 @@ export { default as PrivateRoute } from './private-route';
 export { default as Loader } from './loader';
 export { default as VerificationFailed } from './verification-failed';
 export { default as Centered } from './centered';
+export { default as Spacer } from './spacer';

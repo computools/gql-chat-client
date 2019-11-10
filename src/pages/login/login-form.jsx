@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import { authActionNames } from '../../store/auth';
 import { Field, Form } from 'react-final-form';
-import { FormLine, FormField } from '../../components/form';
+import { FormLine, FormField, FormError, FormSubmitBtn } from '../../components/form';
 import MakeAsync from '../../components/common/make-async';
 import { isRequired } from '../../utils';
+import { Spacer } from '../../components/common';
 
 const initialValues = {
   email: '',
@@ -26,37 +26,33 @@ const LoginForm = () => {
           }}
           render={({ handleSubmit, submitting, submitError }) => {
             return (
-              <form onSubmit={handleSubmit} noValidate>
-                <FormLine>
-                  <Field
-                    name="email"
-                    type="text"
-                    validate={isRequired}
-                    label="Email"
-                    render={FormField}
-                    disabled={submitting}
-                  />
-                </FormLine>
-                <FormLine>
-                  <Field
-                    name="password"
-                    type="password"
-                    validate={isRequired}
-                    label="Password"
-                    render={FormField}
-                    disabled={submitting}
-                  />
-                </FormLine>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  disabled={submitting}
-                >
-                  Login
-                </Button>
-                <span>{submitError}</span>
-              </form>
+              <>
+                <Spacer height={10} />
+                <form onSubmit={handleSubmit} noValidate>
+                  <FormLine>
+                    <Field
+                      name="email"
+                      type="text"
+                      validate={isRequired}
+                      label="Email"
+                      render={FormField}
+                      disabled={submitting}
+                    />
+                  </FormLine>
+                  <FormLine>
+                    <Field
+                      name="password"
+                      type="password"
+                      validate={isRequired}
+                      label="Password"
+                      render={FormField}
+                      disabled={submitting}
+                    />
+                  </FormLine>
+                  <FormSubmitBtn>Login</FormSubmitBtn>
+                  <FormError submitError={submitError} />
+                </form>
+              </>
             );
           }}
         />

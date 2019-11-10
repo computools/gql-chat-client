@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     fontFamily: `Kalam,${theme.typography.fontFamily}`,
     fontSize: theme.typography.pxToRem(30),
     marginTop: '5px',
+    userSelect: 'none',
   },
   flexGrow: {
     flex: 1,
