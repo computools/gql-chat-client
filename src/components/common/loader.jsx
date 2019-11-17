@@ -2,10 +2,10 @@ import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import Centered from './centered';
 
-const Loader = props => {
+const Loader = ({ absolute, rest }) => {
   return (
-    <Centered>
-      <CircularProgress color="primary" {...props} />
+    <Centered absolute={absolute}>
+      <CircularProgress color="primary" {...rest} />
     </Centered>
   );
 };

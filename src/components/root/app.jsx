@@ -4,8 +4,13 @@ import Router from './router';
 import GlobalCss from '../common/global-css';
 import { useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
-import { Loader, VerificationFailed } from '../common';
+import { Loader, VerificationFailed, Header } from '../common';
 import { useActions } from '../hooks';
+import { useHistory } from 'react-router-dom';
+import { routes } from '../../constants';
+
+const withHeaderSet = new Set([routes.login, routes.signup, routes.chats]);
+const hasHeader = pathname => withHeaderSet.has(pathname);
 
 const actions = {
   verifyUserToken: authActions.verifyUserToken,
@@ -13,6 +18,7 @@ const actions = {
 };
 
 const App = () => {
+  const history = useHistory();
   const { verifyUserToken, updateUserToken } = useActions(actions);
   const isUserLoading = useSelector(state => state.auth.isUserLoading);
   const tokenVerificationError = useSelector(state => state.auth.tokenVerificationError);
@@ -26,7 +32,15 @@ const App = () => {
     if (!isUserLoading && tokenVerificationError) {
       return <VerificationFailed {...{ tokenVerificationError, verifyUserToken }} />;
     }
-    return isUserLoading ? <Loader /> : <Router />;
+    if (isUserLoading) return <Loader />;
+
+    const withHeader = hasHeader(history.location.pathname);
+    return (
+      <>
+        {withHeader && <Header />}
+        <Router />
+      </>
+    );
   };
 
   return (
