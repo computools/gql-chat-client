@@ -79,7 +79,7 @@ const SignUpForm = () => {
                       disabled={submitting}
                     />
                   </FormLine>
-                  <FormSubmitBtn>Sign up</FormSubmitBtn>
+                  <FormSubmitBtn submitting={submitting}>Sign up</FormSubmitBtn>
                   <FormError submitError={submitError} />
                 </form>
               </>

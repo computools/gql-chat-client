@@ -49,7 +49,7 @@ const LoginForm = () => {
                       disabled={submitting}
                     />
                   </FormLine>
-                  <FormSubmitBtn>Login</FormSubmitBtn>
+                  <FormSubmitBtn submitting={submitting}>Login</FormSubmitBtn>
                   <FormError submitError={submitError} />
                 </form>
               </>
