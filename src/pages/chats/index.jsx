@@ -15,13 +15,11 @@ import { Spacer, Loader } from '../../components/common';
 const GET_ALL_CHATS = gql`
   query GetAllChats {
     chats {
-      chats {
+      name
+      id
+      createdAt
+      creator {
         name
-        id
-        createdAt
-        creator {
-          name
-        }
       }
     }
   }
@@ -44,7 +42,7 @@ const ChatsPage = () => {
   return (
     <Container maxWidth="lg">
       <Spacer height={10} />
-      <ChatsList chats={data.chats.chats} />
+      <ChatsList chats={data.chats} />
     </Container>
   );
 };
