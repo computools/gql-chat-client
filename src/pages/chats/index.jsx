@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 // import { subscriptions } from '../../api/subscriptions';
 import gql from 'graphql-tag';
 import ChatsList from './chats-list';
+import ChatsHeader from './chats-header';
 import { Container } from '@material-ui/core';
 import { Spacer, Loader } from '../../components/common';
 
@@ -42,6 +43,7 @@ const ChatsPage = () => {
   return (
     <Container maxWidth="lg">
       <Spacer height={10} />
+      <ChatsHeader />
       <ChatsList chats={data.chats} />
     </Container>
   );

@@ -12,6 +12,14 @@ const REGISTER_USER = gql`
   ${fragments.userWithToken}
 `;
 
+export const CREATE_CHAT = gql`
+  mutation createChat($chatSettings: CreateChatInput!) {
+    createChat(chatSettings: $chatSettings) {
+      id
+    }
+  }
+`
+
 export const mutations = {
   registerUser: baseMutation(REGISTER_USER),
 };

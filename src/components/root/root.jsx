@@ -9,6 +9,7 @@ import { store, persistor } from '../../store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@material-ui/styles';
 import { theme } from '../../constants';
+import { SnackBarProvider } from '../../contexts/snack-bar';
 
 const Root = () => {
   return (
@@ -17,8 +18,10 @@ const Root = () => {
         <StoreProvider store={store}>
           <PersistGate persistor={persistor}>
             <BrowserRouter>
-              <HelmetWrapper />
-              <App />
+              <SnackBarProvider>
+                <HelmetWrapper />
+                <App />
+              </SnackBarProvider>
             </BrowserRouter>
           </PersistGate>
         </StoreProvider>
