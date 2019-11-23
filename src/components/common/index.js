@@ -6,3 +6,4 @@ export { default as Loader } from './loader';
 export { default as VerificationFailed } from './verification-failed';
 export { default as Centered } from './centered';
 export { default as Spacer } from './spacer';
+export { default as CustomSnackBarContent } from './snack-bar-content';
