@@ -32,6 +32,16 @@ const UPDATE_USER_TOKEN = gql`
   }
 `;
 
+export const GET_ALL_CHATS = gql`
+  query GetAllChats {
+    chats {
+      ...chatWithoutMessages
+    }
+  }
+
+  ${fragments.chatWithoutMessages}
+`;
+
 export const query = {
   loginUser: baseNoCacheQuery(LOGIN_USER),
   verifyUser: baseNoCacheQuery(VERIFY_USER_TOKEN),

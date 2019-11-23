@@ -19,7 +19,20 @@ const USER_WITH_TOKEN = gql`
   ${USER_WITHOUT_PASSWORD}
 `;
 
+const CHAT_WITHOUT_MESSAGES = gql`
+  fragment chatWithoutMessages on ChatRes {
+    id
+    name
+    createdAt
+    creator {
+      id
+      name
+    }
+  }
+`;
+
 export const fragments = {
   userWithoutPassword: USER_WITHOUT_PASSWORD,
   userWithToken: USER_WITH_TOKEN,
+  chatWithoutMessages: CHAT_WITHOUT_MESSAGES,
 };
