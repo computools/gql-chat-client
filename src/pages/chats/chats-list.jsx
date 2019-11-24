@@ -79,7 +79,7 @@ const ChatsList = ({ chats, width }) => {
                 </IconButton>
               </div>
               <Typography variant="caption" className={classes.withEllipsis}>
-                Created at {createdAt}
+                Created at {createdAt.format('YYYY-MM-DD HH:mm')}
               </Typography>
             </Paper>
           </GridListTile>

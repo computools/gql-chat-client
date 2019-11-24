@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { subscriptions } from '../../api/subscriptions';
 import ChatsList from './chats-list';
@@ -6,6 +6,7 @@ import ChatsHeader from './chats-header';
 import { Container } from '@material-ui/core';
 import { Spacer, Loader } from '../../components/common';
 import { GET_ALL_CHATS } from '../../api/query';
+import { toMoment } from '../../utils';
 
 // const SEND_MESSAGE = gql`
 //   mutation SendMessage($message: String!) {
@@ -31,6 +32,13 @@ const ChatsPage = () => {
       },
     });
   }, [subscribeToMore]);
+  const chats = useMemo(() => {
+    if (!data) return [];
+    return data.chats.map(chat => ({
+      ...chat,
+      createdAt: toMoment(chat.createdAt),
+    }));
+  }, [data]);
 
   if (loading) return <Loader absolute />;
   if (error) return <span>Got an error</span>;
@@ -39,7 +47,7 @@ const ChatsPage = () => {
     <Container maxWidth="lg">
       <Spacer height={10} />
       <ChatsHeader />
-      <ChatsList chats={data.chats} />
+      <ChatsList chats={chats} />
     </Container>
   );
 };
