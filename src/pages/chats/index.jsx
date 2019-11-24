@@ -19,13 +19,22 @@ const ChatsPage = () => {
   useEffect(() => {
     subscribeToMore({
       document: subscriptions.chatList,
-      updateQuery: (prev, { subscriptionData: { data } }) => {
-        const {
-          chatList: { chat, type },
-        } = data;
-        switch (type) {
+      updateQuery: (
+        prev,
+        {
+          subscriptionData: {
+            data: { chatList },
+          },
+        }
+      ) => {
+        switch (chatList.type) {
           case 'ADDED':
-            return { ...prev, chats: [...prev.chats, chat] };
+            return { ...prev, chats: [...prev.chats, chatList.chat] };
+          case 'DELETED':
+            return {
+              ...prev,
+              chats: prev.chats.filter(({ id }) => id !== chatList.chatId),
+            };
           default:
             return prev;
         }

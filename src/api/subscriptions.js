@@ -13,9 +13,15 @@ const MESSAGE_SENT = gql`
 const CHAT_LIST = gql`
   subscription chatList {
     chatList {
-      type
-      chat {
-        ...chatWithoutMessages
+      ... on ChatListChatAdded {
+        type
+        chat {
+          ...chatWithoutMessages
+        }
+      }
+      ... on ChatListChatDeleted {
+        type
+        chatId
       }
     }
   }

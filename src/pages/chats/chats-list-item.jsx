@@ -72,7 +72,6 @@ const ChatsListItem = ({ chat, snackBar }) => {
     onCompleted: ({ deleteChat }) => {
       if (deleteChat) {
         snackBar.success({ message: 'Chat has been deleted successfully' });
-        setIsChatDeleteOpen(false);
         return
       }
       snackBar.error({ message: 'Unable to delete chat' });

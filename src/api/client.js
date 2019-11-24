@@ -7,6 +7,7 @@ import { getMainDefinition } from 'apollo-utilities';
 import { split } from 'apollo-link';
 import { store } from '../store';
 import { setContext } from 'apollo-link-context';
+import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 
 const getToken = () => store.getState().auth.token;
 
@@ -27,7 +28,7 @@ export const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: () => ({
-      token: getToken(),
+      token: getToken(), // todo: use same approach as in authLink to pass token
     }),
   },
 });
@@ -46,7 +47,43 @@ const link = authLink.concat(
   )
 );
 
-export const apiClient = new ApolloClient({
-  link,
-  cache: new InMemoryCache(),
-});
+let apiClient;
+
+export const initApiClient = async () => {
+  // ? retrieve all types to handle union types correctly, because of an cache issue with unions
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      variables: {},
+      query: `
+        {
+          __schema {
+            types {
+              kind
+              name
+              possibleTypes {
+                name
+              }
+            }
+          }
+        }
+      `,
+    }),
+  });
+
+  const { data } = await res.json();
+  data.__schema.types = data.__schema.types.filter(
+    type => type.possibleTypes !== null
+  );
+  const fragmentMatcher = new IntrospectionFragmentMatcher({
+    introspectionQueryResultData: data,
+  });
+
+  apiClient = new ApolloClient({
+    link,
+    cache: new InMemoryCache({ fragmentMatcher }),
+  });
+};
+
+export const getApiClient = () => apiClient;
