@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -11,7 +11,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { useSelector } from 'react-redux';
 import { AccountCircle } from '@material-ui/icons';
-import { useActions } from '../hooks';
+import { useActions, useMenu } from '../hooks';
 import { authActions } from '../../store/auth';
 import { useHistory } from 'react-router-dom';
 import { routes } from '../../constants';
@@ -46,11 +46,7 @@ const Header = () => {
   const history = useHistory();
   const { logOutUser } = useActions(actions);
   const isUserLoggedIn = useSelector(state => !!state.auth.user);
-  const [menuAnchor, setMenuAnchor] = useState(null);
-  const isMenuOpen = !!menuAnchor;
-
-  const onMenuOpen = useCallback(e => setMenuAnchor(e.currentTarget), []);
-  const onMenuClose = useCallback(() => setMenuAnchor(null), []);
+  const { onMenuClose, onMenuOpen, isMenuOpened, menuAnchor } = useMenu();
   const handleMenuItemClick = fn => (...args) => {
     fn(...args);
     onMenuClose();
@@ -88,7 +84,7 @@ const Header = () => {
                   vertical: 'top',
                   horizontal: 'right',
                 }}
-                open={isMenuOpen}
+                open={isMenuOpened}
                 onClose={onMenuClose}
               >
                 <MenuItem onClick={hangleLogOut}>Log Out</MenuItem>

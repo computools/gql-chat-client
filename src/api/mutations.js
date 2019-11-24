@@ -20,6 +20,12 @@ export const CREATE_CHAT = gql`
   }
 `
 
+export const DELETE_CHAT = gql`
+  mutation deleteChat($chatId: String!) {
+    deleteChat(chatId: $chatId)
+  }
+`
+
 export const mutations = {
   registerUser: baseMutation(REGISTER_USER),
 };
