@@ -8,7 +8,7 @@ import { Spacer, Loader } from '../../components/common';
 import { GET_ALL_CHATS } from '../../api/query';
 import { toMoment } from '../../utils';
 import { chatListTypes } from '../../store/user-data';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import ChatsList from './chats-list';
 
 // const SEND_MESSAGE = gql`
@@ -19,8 +19,16 @@ import ChatsList from './chats-list';
 
 const chatsListTypeToComponent = {
   [chatListTypes.grid]: ChatsGrid,
-  [chatListTypes.list]: ChatsList
-}
+  [chatListTypes.list]: ChatsList,
+};
+
+const mutateChatsList = ({ prev, list }) => ({
+  ...prev,
+  chats: {
+    ...prev.chats,
+    list,
+  },
+});
 
 const ChatsPage = () => {
   const { data, loading, error, subscribeToMore } = useQuery(GET_ALL_CHATS);
@@ -35,14 +43,15 @@ const ChatsPage = () => {
           },
         }
       ) => {
+        const prevChatList = prev.chats.list;
         switch (chatList.type) {
           case 'ADDED':
-            return { ...prev, chats: [...prev.chats, chatList.chat] };
+            return mutateChatsList({ prev, list: [...prevChatList, chatList.chat] });
           case 'DELETED':
-            return {
-              ...prev,
-              chats: prev.chats.filter(({ id }) => id !== chatList.chatId),
-            };
+            return mutateChatsList({
+              prev,
+              list: prevChatList.filter(({ id }) => id !== chatList.chatId),
+            });
           default:
             return prev;
         }
@@ -51,16 +60,16 @@ const ChatsPage = () => {
   }, [subscribeToMore]);
   const chats = useMemo(() => {
     if (!data) return [];
-    return data.chats.map(chat => ({
+    return data.chats.list.map(chat => ({
       ...chat,
       createdAt: toMoment(chat.createdAt),
     }));
   }, [data]);
-  const chatListType = useSelector(state => state.userData.chatListType)
+  const chatListType = useSelector(state => state.userData.chatListType);
   const renderChats = useCallback(() => {
-    const Component = chatsListTypeToComponent[chatListType]
-    return <Component chats={chats} />
-  }, [chats, chatListType])
+    const Component = chatsListTypeToComponent[chatListType];
+    return <Component chats={chats} />;
+  }, [chats, chatListType]);
 
   if (loading) return <Loader absolute />;
   if (error) return <span>Got an error</span>;

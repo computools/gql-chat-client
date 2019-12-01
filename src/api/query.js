@@ -35,7 +35,11 @@ const UPDATE_USER_TOKEN = gql`
 export const GET_ALL_CHATS = gql`
   query GetAllChats {
     chats {
-      ...chatWithoutMessages
+      ... on ChatsRes {
+        list {
+          ...chatWithoutMessages
+        }
+      }
     }
   }
 
