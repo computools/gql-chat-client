@@ -52,7 +52,6 @@ const ChatsHeader = ({ snackBar }) => {
   const { setChatListType } = useActions(actions);
   const onChatListTypeChange = useCallback(
     (_, chatListType) => {
-      // ? sometimes there's null as a new value, so just do nothing
       if (!chatListType) return;
       setChatListType({ chatListType });
     },
