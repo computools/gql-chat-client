@@ -1,33 +1,19 @@
-import React from 'react';
-import { GridList, withWidth, GridListTile, makeStyles } from '@material-ui/core';
+import React, { Fragment } from 'react';
+import { List } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import ChatsListItem from './chats-list-item';
 
-const widthToGridCols = {
-  xs: 1,
-  sm: 2,
-  md: 4,
-  lg: 5,
-  xl: 5,
-};
-
-const useStyles = makeStyles({
-  listTile: {
-    overflow: 'visible',
-  },
-});
-
-const ChatsList = ({ chats, width }) => {
-  const classes = useStyles();
-
+const ChatsList = ({ chats }) => {
   return (
-    <GridList cellHeight={150} spacing={12} cols={widthToGridCols[width]}>
-      {chats.map(chat => (
-        <GridListTile key={`chat-${chat.id}`} classes={{ tile: classes.listTile }}>
+    <List>
+      {chats.map((chat, i) => (
+        <Fragment key={`chat-list-${chat.id}`}>
           <ChatsListItem chat={chat} />
-        </GridListTile>
+          {i !== chats.length - 1 && <Divider light />}
+        </Fragment>
       ))}
-    </GridList>
+    </List>
   );
 };
 
-export default withWidth()(ChatsList);
+export default ChatsList;

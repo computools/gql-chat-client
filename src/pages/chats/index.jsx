@@ -1,18 +1,26 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { subscriptions } from '../../api/subscriptions';
-import ChatsList from './chats-list';
+import ChatsGrid from './chats-grid';
 import ChatsHeader from './chats-header';
 import { Container } from '@material-ui/core';
 import { Spacer, Loader } from '../../components/common';
 import { GET_ALL_CHATS } from '../../api/query';
 import { toMoment } from '../../utils';
+import { chatListTypes } from '../../store/user-data';
+import { useSelector } from 'react-redux'
+import ChatsList from './chats-list';
 
 // const SEND_MESSAGE = gql`
 //   mutation SendMessage($message: String!) {
 //     sendMessage(message: $message)
 //   }
 // `;
+
+const chatsListTypeToComponent = {
+  [chatListTypes.grid]: ChatsGrid,
+  [chatListTypes.list]: ChatsList
+}
 
 const ChatsPage = () => {
   const { data, loading, error, subscribeToMore } = useQuery(GET_ALL_CHATS);
@@ -48,6 +56,11 @@ const ChatsPage = () => {
       createdAt: toMoment(chat.createdAt),
     }));
   }, [data]);
+  const chatListType = useSelector(state => state.userData.chatListType)
+  const renderChats = useCallback(() => {
+    const Component = chatsListTypeToComponent[chatListType]
+    return <Component chats={chats} />
+  }, [chats, chatListType])
 
   if (loading) return <Loader absolute />;
   if (error) return <span>Got an error</span>;
@@ -56,7 +69,7 @@ const ChatsPage = () => {
     <Container maxWidth="lg">
       <Spacer height={10} />
       <ChatsHeader />
-      <ChatsList chats={chats} />
+      {renderChats()}
     </Container>
   );
 };

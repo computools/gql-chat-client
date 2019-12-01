@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { CREATE_CHAT } from '../../api/mutations';
 import {
@@ -14,10 +14,20 @@ import { FormLine } from '../../components/form';
 import { Loader } from '../../components/common';
 import { withSnackBar } from '../../contexts/snack-bar';
 import { ApiError } from '../../models';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { useSelector } from 'react-redux';
+import { useActions } from '../../components/hooks';
+import { userDataActions, chatListTypes } from '../../store/user-data';
+import ListIcon from '@material-ui/icons/List';
+import AppsIcon from '@material-ui/icons/Apps';
 
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1, 0, 1.4, 0),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dialog: {
     padding: theme.spacing(1, 0),
@@ -29,11 +39,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const actions = {
+  setChatListType: userDataActions.setChatListType,
+};
+
 const ChatsHeader = ({ snackBar }) => {
   const classes = useStyles();
   const [createChat, { loading }] = useMutation(CREATE_CHAT);
   const [isCreateChatOpen, setIsCreateChatOpen] = useState(false);
   const [chatCreateName, setChatCreateName] = useState('');
+  const chatListType = useSelector(state => state.userData.chatListType);
+  const { setChatListType } = useActions(actions);
+  const onChatListTypeChange = useCallback(
+    (_, chatListType) => {
+      // ? sometimes there's null as a new value, so just do nothing
+      if (!chatListType) return;
+      setChatListType({ chatListType });
+    },
+    [setChatListType]
+  );
   const onChatCreate = async () => {
     if (!chatCreateName.length) {
       return snackBar.error({
@@ -64,6 +88,14 @@ const ChatsHeader = ({ snackBar }) => {
       >
         Create chat
       </Button>
+      <ToggleButtonGroup value={chatListType} exclusive onChange={onChatListTypeChange}>
+        <ToggleButton value={chatListTypes.grid}>
+          <AppsIcon />
+        </ToggleButton>
+        <ToggleButton value={chatListTypes.list}>
+          <ListIcon />
+        </ToggleButton>
+      </ToggleButtonGroup>
       <Dialog
         classes={{ paper: classes.dialog }}
         open={isCreateChatOpen}

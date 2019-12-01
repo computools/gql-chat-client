@@ -1,4 +1,5 @@
 import { authWatcher, authReducer } from './auth';
+import { userDataReducer } from './user-data';
 import { combineReducers } from 'redux';
 import { all } from '@redux-saga/core/effects';
 import { persistReducer } from 'redux-persist';
@@ -11,10 +12,9 @@ const persistAuthReducerConfig = {
 };
 export const rootReducer = combineReducers({
   auth: persistReducer(persistAuthReducerConfig, authReducer),
+  userData: userDataReducer,
 });
 
 export function* rootSaga() {
-  yield all([
-    authWatcher()
-  ]);
+  yield all([authWatcher()]);
 }

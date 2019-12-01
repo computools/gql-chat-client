@@ -6,6 +6,7 @@ import { authActions } from './actions';
 import { ApiError } from '../../models';
 import { TOKEN_UPDATE_DELAY } from '../../constants';
 import { shouldUpdateToken } from '../../utils';
+import { userDataActions } from '../user-data';
 
 function* registerUser({ payload: { email, password, name } }) {
   try {
@@ -105,8 +106,9 @@ function* updateUserToken() {
   yield put(authActions.updateUserToken());
 }
 
-function userLogOut() {
+function* userLogOut() {
   wsLink.subscriptionClient.close();
+  yield put(userDataActions.resetStore());
 }
 
 export function* authWatcher() {
