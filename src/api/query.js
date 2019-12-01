@@ -46,6 +46,23 @@ export const GET_ALL_CHATS = gql`
   ${fragments.chatWithoutMessages}
 `;
 
+export const CHAT_WITH_MESSAGES = gql`
+  query GetChatWithMesages($chatId: String!) {
+    chats(chatId: $chatId) {
+      ... on ChatRes {
+        name
+        messages {
+          id
+          message
+          from {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const query = {
   loginUser: baseNoCacheQuery(LOGIN_USER),
   verifyUser: baseNoCacheQuery(VERIFY_USER_TOKEN),

@@ -1,10 +1,12 @@
 import { createMuiTheme } from '@material-ui/core';
 
+export const HEADER_HEIGHT = '58px'
+
 export const theme = createMuiTheme({
   overrides: {
     MuiToolbar: {
       root: {
-        height: '58px',
+        height: HEADER_HEIGHT,
       },
     },
   },

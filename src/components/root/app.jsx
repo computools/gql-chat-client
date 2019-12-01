@@ -8,9 +8,15 @@ import { Loader, VerificationFailed, Header } from '../common';
 import { useActions } from '../hooks';
 import { useHistory } from 'react-router-dom';
 import { routes } from '../../constants';
+import pathToRegexp from 'path-to-regexp';
 
-const withHeaderSet = new Set([routes.login, routes.signup, routes.chats]);
-const hasHeader = pathname => withHeaderSet.has(pathname);
+const withHeaderSet = [
+  routes.login,
+  routes.signup,
+  routes.chats,
+  routes.chat,
+].map(route => pathToRegexp(route));
+const hasHeader = pathname => withHeaderSet.some(regExp => regExp.test(pathname));
 
 const actions = {
   verifyUserToken: authActions.verifyUserToken,

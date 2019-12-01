@@ -26,6 +26,12 @@ export const DELETE_CHAT = gql`
   }
 `
 
+export const SEND_MESSAGE = gql`
+  mutation SendMessage($data: SendMessageInput!) {
+    sendMessage(data: $data)
+  }
+`;
+
 export const mutations = {
   registerUser: baseMutation(REGISTER_USER),
 };
