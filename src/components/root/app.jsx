@@ -8,7 +8,7 @@ import { Loader, VerificationFailed, Header } from '../common';
 import { useActions } from '../hooks';
 import { useHistory } from 'react-router-dom';
 import { routes } from '../../constants';
-import pathToRegexp from 'path-to-regexp';
+import { pathToRegexp } from 'path-to-regexp';
 
 const withHeaderSet = [
   routes.login,
