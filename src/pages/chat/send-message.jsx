@@ -4,6 +4,8 @@ import { FormLine, FormField, FormSubmitBtn } from '../../components/form';
 import { makeStyles } from '@material-ui/styles';
 import { useMutation } from '@apollo/react-hooks';
 import { SEND_MESSAGE } from '../../api/mutations';
+import { withSnackBar } from '../../contexts/snack-bar';
+import { ApiError } from '../../models';
 
 const initialValues = {
   message: '',
@@ -24,8 +26,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SendMessage = ({ chatId }) => {
-  const [sendMessage] = useMutation(SEND_MESSAGE);
+const SendMessage = ({ chatId, snackBar }) => {
+  const [sendMessage] = useMutation(SEND_MESSAGE, { onError: (err) => {
+    snackBar.error({ message: ApiError.from(err).message })
+  }});
   const classes = useStyles();
   const onSubmit = ({ message }, { reset }) => {
     if (!message) return;
@@ -72,4 +76,4 @@ const SendMessage = ({ chatId }) => {
   );
 };
 
-export default SendMessage;
+export default withSnackBar(SendMessage);

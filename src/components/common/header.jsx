@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: theme.typography.pxToRem(30),
     marginTop: '5px',
     userSelect: 'none',
+    cursor: 'pointer',
   },
   flexGrow: {
     flex: 1,
@@ -58,12 +59,18 @@ const Header = () => {
   const onSignUpClick = useCallback(() => {
     history.push(routes.signup);
   }, [history]);
+  const onTitleClick = useCallback(() => {
+    if (isUserLoggedIn) {
+      return history.push(routes.chats);
+    }
+    history.push(routes.login);
+  }, [isUserLoggedIn, history]);
 
   return (
     <>
       <AppBar position="fixed" color="primary">
         <Toolbar variant="dense">
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h5" className={classes.title} onClick={onTitleClick}>
             QChat
           </Typography>
           <div className={classes.flexGrow}></div>

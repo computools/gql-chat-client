@@ -4,3 +4,5 @@ export const routes = {
   chats: '/chats',
   chat: '/chat/:chatId'
 };
+
+export const getChatUrl = (id) => `/chat/${id}`

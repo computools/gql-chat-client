@@ -31,7 +31,9 @@ const mutateChatsList = ({ prev, list }) => ({
 });
 
 const ChatsPage = () => {
-  const { data, loading, error, subscribeToMore } = useQuery(GET_ALL_CHATS);
+  const { data, loading, error, subscribeToMore } = useQuery(GET_ALL_CHATS, {
+    fetchPolicy: 'network-only',
+  });
   useEffect(() => {
     subscribeToMore({
       document: subscriptions.chatList,

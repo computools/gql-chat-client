@@ -85,7 +85,7 @@ const ChatsHeader = ({ snackBar }) => {
         variant="outlined"
         onClick={() => setIsCreateChatOpen(true)}
       >
-        Create chat
+        Create a chat
       </Button>
       <ToggleButtonGroup value={chatListType} exclusive onChange={onChatListTypeChange}>
         <ToggleButton value={chatListTypes.grid}>

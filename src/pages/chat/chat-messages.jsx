@@ -22,7 +22,7 @@ const ChatMessages = ({ messages }) => {
   };
 
   useEffect(() => {
-    scrollToTheBottom(); // ! todo prevent scrolling when scroll isn't at the bottom of list
+      scrollToTheBottom();
   }, [messages.length]);
 
   return (
