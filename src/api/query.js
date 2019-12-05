@@ -52,15 +52,13 @@ export const CHAT_WITH_MESSAGES = gql`
       ... on ChatRes {
         name
         messages {
-          id
-          message
-          from {
-            name
-          }
+          ...chatMessage
         }
       }
     }
   }
+
+  ${fragments.chatMessage}
 `;
 
 export const query = {

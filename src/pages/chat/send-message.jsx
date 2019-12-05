@@ -11,7 +11,7 @@ const initialValues = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(2, 0, 4),
+    margin: theme.spacing(0, 0, 2.5),
   },
   messageLine: {
     alignItems: 'flex-end',
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SendMessage = ({ chatId }) => {
-  const [sendMessage, {}] = useMutation(SEND_MESSAGE);
+  const [sendMessage] = useMutation(SEND_MESSAGE);
   const classes = useStyles();
   const onSubmit = ({ message }, { reset }) => {
     if (!message) return;

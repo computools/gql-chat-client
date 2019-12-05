@@ -31,8 +31,20 @@ const CHAT_WITHOUT_MESSAGES = gql`
   }
 `;
 
+const CHAT_MESSAGE = gql`
+  fragment chatMessage on ChatMessage {
+    id
+    message
+    from {
+      name
+    }
+    createdAt
+  }
+`;
+
 export const fragments = {
   userWithoutPassword: USER_WITHOUT_PASSWORD,
   userWithToken: USER_WITH_TOKEN,
   chatWithoutMessages: CHAT_WITHOUT_MESSAGES,
+  chatMessage: CHAT_MESSAGE
 };

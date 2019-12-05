@@ -1,15 +1,6 @@
 import gql from 'graphql-tag';
 import { fragments } from './fragments';
 
-const MESSAGE_SENT = gql`
-  subscription messageSent {
-    messageSent {
-      id
-      message
-    }
-  }
-`;
-
 const CHAT_LIST = gql`
   subscription chatList {
     chatList {
@@ -29,7 +20,17 @@ const CHAT_LIST = gql`
   ${fragments.chatWithoutMessages}
 `;
 
+const CHAT_MESSAGES = gql`
+  subscription chatMessages($chatId: String!) {
+    chatMessages(chatId: $chatId) {
+      ...chatMessage
+    }
+  }
+
+  ${fragments.chatMessage}
+`;
+
 export const subscriptions = {
-  messageSent: MESSAGE_SENT,
   chatList: CHAT_LIST,
+  chatMessages: CHAT_MESSAGES,
 };
