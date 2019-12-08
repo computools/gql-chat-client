@@ -13,6 +13,7 @@
     "classnames": "^2.2.6",
     "email-validator": "^2.0.4",
     "final-form": "^4.18.6",
+    "gh-pages": "^2.1.1",
     "graphql": "^14.5.8",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
@@ -35,12 +36,15 @@
     "redux-saga": "^1.1.3",
     "subscriptions-transport-ws": "^0.9.16"
   },
+  "homepage": "https://null096.github.io/gql-chat-client",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "pretty": "prettier --write src/**/*.{js,jsx}"
+    "pretty": "prettier --write src/**/*.{js,jsx}",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
