@@ -51,31 +51,34 @@ let apiClient;
 
 export const initApiClient = async () => {
   // ? retrieve all types to handle union types correctly, because of an cache issue with unions
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      variables: {},
-      query: `
-        {
-          __schema {
-            types {
-              kind
-              name
-              possibleTypes {
+  let data;
+  if (process.env.NODE_ENV === 'production') {
+    data = (await import('./schema.json')).data;
+  } else {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        variables: {},
+        query: `
+          {
+            __schema {
+              types {
+                kind
                 name
+                possibleTypes {
+                  name
+                }
               }
             }
           }
-        }
-      `,
-    }),
-  });
+        `,
+      }),
+    });
+    data = (await res.json()).data;
+  }
 
-  const { data } = await res.json();
-  data.__schema.types = data.__schema.types.filter(
-    type => type.possibleTypes !== null
-  );
+  data.__schema.types = data.__schema.types.filter(type => type.possibleTypes !== null);
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: data,
   });
