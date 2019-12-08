@@ -1,6 +1,6 @@
 import { Time } from '../models';
 
-const host = 'localhost:5000';
+const host = process.env.API_HOST || 'localhost:5000';
 export const API_WS =  `ws://${host}/`;
 export const API_URL = `http://${host}/graphql`;
 
