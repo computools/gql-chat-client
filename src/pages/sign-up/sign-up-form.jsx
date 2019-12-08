@@ -5,12 +5,26 @@ import { FormLine, FormField, FormError, FormSubmitBtn } from '../../components/
 import MakeAsync from '../../components/common/make-async';
 import { isRequired } from '../../utils';
 import { Spacer } from '../../components/common';
+import { validate as emailValidator } from 'email-validator';
 
 const initialValues = {
   name: '',
   email: '',
   password: '',
   passwordConfim: '',
+};
+const validateName = name => {
+  if (/^[a-zA-Z0-9]{4,20}$/.test(name)) return undefined;
+  return 'Must conatain only: A-Z symbols or numbers with length 4-20';
+};
+const validateEmail = email => {
+  if (emailValidator(email)) return undefined;
+  return 'Incorrect email';
+};
+const validatePassword = pass => {
+  if (pass === undefined) return 'Required';
+  if (pass.length >= 8) return undefined;
+  return 'Password must length must be at least 8';
 };
 const validate = ({ password, passwordConfim }) => {
   const errors = {};
@@ -43,7 +57,7 @@ const SignUpForm = () => {
                     <Field
                       name="name"
                       type="text"
-                      validate={isRequired}
+                      validate={validateName}
                       label="Name"
                       render={FormField}
                       disabled={submitting}
@@ -53,7 +67,7 @@ const SignUpForm = () => {
                     <Field
                       name="email"
                       type="text"
-                      validate={isRequired}
+                      validate={validateEmail}
                       label="Email"
                       render={FormField}
                       disabled={submitting}
@@ -63,7 +77,7 @@ const SignUpForm = () => {
                     <Field
                       name="password"
                       type="password"
-                      validate={isRequired}
+                      validate={validatePassword}
                       label="Password"
                       render={FormField}
                       disabled={submitting}
